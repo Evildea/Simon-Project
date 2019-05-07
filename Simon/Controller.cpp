@@ -33,7 +33,7 @@ Selection Controller::getState()
 	return selected_option;
 }
 
-void Controller::draw(aie::Renderer2D * a_renderer, aie::Font * a_font, float a_widthH, float a_hightH)
+void Controller::draw(aie::Renderer2D * a_renderer, aie::Font * a_font, float a_widthH, float a_heightH)
 {
 	if (current_screen != Start_Game)
 	{
@@ -41,13 +41,13 @@ void Controller::draw(aie::Renderer2D * a_renderer, aie::Font * a_font, float a_
 			a_renderer->setRenderColour(255, 0, 0, 1);
 		else
 			a_renderer->setRenderColour(255, 255, 255, 1);
-		a_renderer->drawText(a_font, "Start Game", a_widthH - (5 * 17), a_hightH + 25);
+		a_renderer->drawText(a_font, "Start Game", a_widthH - (5 * 17), a_heightH + 25);
 
 		if (getState() == High_Score)
 			a_renderer->setRenderColour(255, 0, 0, 1);
 		else
 			a_renderer->setRenderColour(255, 255, 255, 1);
-		a_renderer->drawText(a_font, "High Score", a_widthH - (5 * 17), a_hightH - 25);
+		a_renderer->drawText(a_font, "High Score", a_widthH - (5 * 17), a_heightH - 25);
 	}
 }
 

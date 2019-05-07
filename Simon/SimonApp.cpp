@@ -66,11 +66,11 @@ void SimonApp::draw() {
 	m_2dRenderer->begin();
 
 	// This draws the "Start Screen" and "High Score" modes.
-	controller->draw(m_2dRenderer,m_font,widthH,heightH);
+	controller->draw(m_2dRenderer, m_font, widthH, heightH);
 
 	// This draws "Simon".
 	if (simon != nullptr)
-		simon->draw(m_2dRenderer, widthH, heightH);
+		simon->draw(m_2dRenderer, m_font, widthH, heightH);
 	
 	// output some text, uses the last used colour
 	m_2dRenderer->setRenderColour(255, 255, 255, 1);

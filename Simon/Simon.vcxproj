@@ -166,12 +166,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Colour_Pattern.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="SimonApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Colour_Pattern.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="SimonApp.h" />

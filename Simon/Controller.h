@@ -15,7 +15,7 @@ private:
 
 public:
 	void update(aie::Input * a_input);
-	void draw(aie::Renderer2D * a_renderer, aie::Font * a_font, float a_widthH, float a_hightH);
+	void draw(aie::Renderer2D * a_renderer, aie::Font * a_font, float a_widthH, float a_heightH);
 	Selection getCurrentScreen();
 	Selection getState();
 };

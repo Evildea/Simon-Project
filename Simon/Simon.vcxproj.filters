@@ -33,6 +33,9 @@
     <ClCompile Include="Simon.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Colour_Pattern.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SimonApp.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Simon.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Colour_Pattern.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>

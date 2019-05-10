@@ -1,13 +1,12 @@
 ﻿  Simon.cpp
-c:\users\s191281\documents\github\project\simon\simon.cpp(8): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\s191281\documents\github\project\simon\simon.cpp(45): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\s191281\documents\github\project\simon\simon.cpp(145): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\s191281\documents\github\project\simon\simon.cpp(146): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\s191281\documents\github\project\simon\simon.cpp(146): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\s191281\documents\github\project\simon\simon.cpp(150): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\s191281\documents\github\project\simon\simon.cpp(150): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\s191281\documents\github\project\simon\simon.cpp(153): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\s191281\documents\github\project\simon\simon.cpp(154): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\s191281\documents\github\project\simon\simon.cpp(185): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\s191281\documents\github\project\simon\simon.cpp(188): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Simon.vcxproj -> C:\Users\s191281\Documents\GitHub\Project\temp\Simon\x64\Debug\Simon.exe
+e:\github\simon-project\simon\simon.cpp(8): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+e:\github\simon-project\simon\simon.cpp(45): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\github\simon-project\simon\simon.cpp(155): warning C4305: 'argument': truncation from 'double' to 'float'
+e:\github\simon-project\simon\simon.cpp(158): warning C4305: 'argument': truncation from 'double' to 'float'
+e:\github\simon-project\simon\simon.cpp(189): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\github\simon-project\simon\simon.cpp(192): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  SimonApp.cpp
+e:\github\simon-project\simon\simonapp.cpp(18): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+e:\github\simon-project\simon\simonapp.cpp(19): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+  Generating Code...
+  Simon.vcxproj -> E:\Github\Simon-Project\temp\Simon\x64\Debug\Simon.exe

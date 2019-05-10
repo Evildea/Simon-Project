@@ -1,22 +1,28 @@
 #pragma once
-#include "Input.h"
 #include "Renderer2D.h"
-#include "Font.h"
+#include "Input.h"
 #include "Simon.h"
+#include "Font.h"
 
-enum Selection { Start_Screen, Start_Game, High_Score };
+// This represents the current status of the Start Screen options.
+enum Selection { Start_Screen, Start_Game, End_Game };
 
 class Controller
 {
 private:
-	Selection selected_option = Start_Game;
-	Selection current_screen = Start_Screen;
-	bool keylock = false;
+	Selection		m_selected_option		= Start_Game;
+	Selection		m_current_screen		= Start_Screen;
+	bool			m_keylock				= false;
 
 public:
-	void update(aie::Input * a_input);
-	void draw(aie::Renderer2D * a_renderer, aie::Font * a_font, float a_widthH, float a_heightH);
-	Selection getCurrentScreen();
-	Selection getState();
+	void Update(aie::Input * a_input, aie::Application * a_app);
+	void Draw(aie::Renderer2D * a_renderer, aie::Font * a_font, float a_m_widthH, float a_m_heightH);
+
+	// This function resets the start screen.
+	void Restart_Controller();
+
+
+	Selection Get_Current_Screen();
+	Selection Get_State();
 };
 

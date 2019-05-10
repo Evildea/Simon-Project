@@ -1,0 +1,22 @@
+﻿  Colour_Pattern.cpp
+  Controller.cpp
+  Simon.cpp
+e:\github\simon-project\simon\simon.cpp(8): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+e:\github\simon-project\simon\simon.cpp(45): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+e:\github\simon-project\simon\simon.cpp(145): warning C4305: 'argument': truncation from 'double' to 'float'
+e:\github\simon-project\simon\simon.cpp(146): warning C4305: 'argument': truncation from 'double' to 'float'
+e:\github\simon-project\simon\simon.cpp(146): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\github\simon-project\simon\simon.cpp(150): warning C4305: 'argument': truncation from 'double' to 'float'
+e:\github\simon-project\simon\simon.cpp(150): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\github\simon-project\simon\simon.cpp(153): warning C4305: 'argument': truncation from 'double' to 'float'
+e:\github\simon-project\simon\simon.cpp(154): warning C4305: 'argument': truncation from 'double' to 'float'
+e:\github\simon-project\simon\simon.cpp(185): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\github\simon-project\simon\simon.cpp(188): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  SimonApp.cpp
+e:\github\simon-project\simon\simonapp.cpp(19): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+e:\github\simon-project\simon\simonapp.cpp(20): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+  main.cpp
+e:\github\simon-project\simon\main.cpp(8): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+LINK : fatal error LNK1104: cannot open file 'bootstrap.lib'
+E:\Visual Studio\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets(720,5): error MSB6006: "link.exe" exited with code 1104.

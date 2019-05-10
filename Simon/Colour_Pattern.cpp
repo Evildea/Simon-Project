@@ -2,59 +2,60 @@
 
 Colour_Pattern::Colour_Pattern()
 {
-	head = nullptr;
-	current = nullptr;
-	size = 0;
+	m_head	= nullptr;
+	m_current = nullptr;
+	m_size	= 0;
 }
 
 
 Colour_Pattern::~Colour_Pattern()
 {
-	if (head != nullptr)
+	if (m_head != nullptr)
 	{
-		current = head;
-		next_current = head;
+		m_current = m_head;
+		m_next_current = m_head;
 
-		while (next_current != nullptr)
+		while (m_next_current != nullptr)
 		{
-			next_current = current->next;
-			current = next_current;
-			delete current;
+			m_current = m_next_current;
+			m_next_current = m_current->next;
+			if (m_current != nullptr)
+				delete m_current;
 		}
 	}
 }
 
 Link * Colour_Pattern::Get_Head()
 {
-	return head;
+	return m_head;
 }
 
 int Colour_Pattern::Get_Size()
 {
-	return size;
+	return m_size;
 }
 
-void Colour_Pattern::Pust_New_Colour(char a_colour)
+void Colour_Pattern::Push_New_Colour(char a_colour)
 {
 	// If adding a Link to an empty chain add it to the head otherwise add it to the tail.
-	if (head == nullptr)
+	if (m_head == nullptr)
 	{
-		head = new Link;
-		current = head;
-		head->colour = a_colour;
+		m_head = new Link;
+		m_current = m_head;
+		m_head->colour = a_colour;
 	}
 	else
 	{
-		current = head;
-		next_current = head;
+		m_current = m_head;
+		m_next_current = m_head;
 
-		while (next_current != nullptr)
+		while (m_next_current != nullptr)
 		{
-			current = next_current;
-			next_current = current->next;
+			m_current = m_next_current;
+			m_next_current = m_current->next;
 		}
-		current->next = new Link;
-		current->next->colour = a_colour;
+		m_current->next = new Link;
+		m_current->next->colour = a_colour;
 	}
-	size++;
+	m_size++;
 }

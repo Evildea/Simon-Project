@@ -20,7 +20,7 @@ bool SimonApp::startup() {
 	m_controller = new Controller;
 
 	// Generate the Hashtable that stores the texture and font IDs.
-	m_hastable = new Hash_Table(3);
+	m_hastable = new Hash_Table;
 
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
@@ -37,8 +37,8 @@ void SimonApp::shutdown() {
 	delete m_controller;
 	delete m_font;
 	delete m_2dRenderer;
-	delete m_hastable->Get(m_simon_texture);
-	delete m_hastable->Get(m_background_texture);
+	delete m_hastable->Get("simon");
+	delete m_hastable->Get("board");
 	delete m_hastable;
 }
 
@@ -90,7 +90,11 @@ void SimonApp::draw() {
 
 		// This draws the object "Simon".
 		if (m_simon != nullptr)
-			m_simon->Draw(m_hastable, m_2dRenderer, m_font, m_simon_texture, m_background_texture, m_widthH, m_heightH);
+		{
+			m_simon->Draw(m_2dRenderer, m_hastable->Get("simon"), m_widthH, m_heightH);
+			m_simon->Draw(m_2dRenderer, m_hastable->Get("board"), m_widthH, m_heightH);
+			m_simon->Draw(m_2dRenderer, m_font, m_widthH, m_heightH);
+		}
 
 		// This outputs the text Press ESC to the screen.
 		m_2dRenderer->setRenderColour(255, 255, 255, 1);

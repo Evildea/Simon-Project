@@ -148,15 +148,13 @@ void Simon::Update(aie::Input * a_input, float a_m_widthH, float a_hightH)
 		m_alarm03--;
 }
 
-void Simon::Draw(Hash_Table * m_hastable, aie::Renderer2D * a_renderer, aie::Font * a_font, int a_board_texture, int a_background_texture, float a_m_widthH, float a_m_heightH)
+void Simon::Draw(aie::Renderer2D * a_renderer, aie::Texture * a_texture, int a_widthH, int a_heightH)
 {
+	a_renderer->drawSprite(a_texture, a_widthH, a_heightH, 0, 0, 0, .1,.5,.5);
+}
 
-	// Draw the background
-	a_renderer->drawSprite(m_hastable->Get(a_background_texture),a_m_widthH, a_m_heightH,0,0,0,.1);
-
-	// Draw the circular base of Simon.
-	a_renderer->drawSprite(m_hastable->Get(a_board_texture),a_m_widthH,a_m_heightH,0,0,0,.1,.5,.5);
-
+void Simon::Draw(aie::Renderer2D * a_renderer, aie::Font * a_font, float a_widthH, float a_heightH)
+{
 	// Draw the four circles on Simon.
 	float temp_r = 0.0f, temp_g = 0.0f, temp_b = 0.0f;
 
@@ -169,12 +167,12 @@ void Simon::Draw(Hash_Table * m_hastable, aie::Renderer2D * a_renderer, aie::Fon
 		if (m_alarm01 > 20)
 		{
 			if (m_current_chain_link->colour == m_circle[i].colour)
-				a_renderer->drawCircle(a_m_widthH - m_circle[i].x, a_m_heightH - m_circle[i].y, 110, 0);
+				a_renderer->drawCircle(a_widthH - m_circle[i].x, a_heightH - m_circle[i].y, 110, 0);
 			else
-				a_renderer->drawCircle(a_m_widthH - m_circle[i].x, a_m_heightH - m_circle[i].y, 105, 0);
+				a_renderer->drawCircle(a_widthH - m_circle[i].x, a_heightH - m_circle[i].y, 105, 0);
 		}
 		else
-			a_renderer->drawCircle(a_m_widthH - m_circle[i].x, a_m_heightH - m_circle[i].y, 105, 0);
+			a_renderer->drawCircle(a_widthH - m_circle[i].x, a_heightH - m_circle[i].y, 105, 0);
 
 		// Draw the coloured circle. If the mouse is over the circle or the circle is currently flashing then brighten it's contents.
 		if (m_circle[i].mouse_over == false)
@@ -193,7 +191,7 @@ void Simon::Draw(Hash_Table * m_hastable, aie::Renderer2D * a_renderer, aie::Fon
 		{
 			a_renderer->setRenderColour(m_circle[i].r, m_circle[i].g, m_circle[i].b, 1);
 		}
-		a_renderer->drawCircle(a_m_widthH-m_circle[i].x, a_m_heightH-m_circle[i].y, 100, 0);
+		a_renderer->drawCircle(a_widthH-m_circle[i].x, a_heightH-m_circle[i].y, 100, 0);
 	}
 
 	// Draw a "red circle" above the texture green dot.
@@ -201,7 +199,7 @@ void Simon::Draw(Hash_Table * m_hastable, aie::Renderer2D * a_renderer, aie::Fon
 	if (m_alarm01 > 20)
 	{
 		a_renderer->setRenderColour(1, 0, 0, 1);
-		a_renderer->drawCircle(a_m_widthH + 14, a_m_heightH - 19, 4, 0);
+		a_renderer->drawCircle(a_widthH + 14, a_heightH - 19, 4, 0);
 	}
 
 	// Set the rendering colour to BLACK for all text printed after this point.

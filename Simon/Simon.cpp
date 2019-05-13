@@ -11,7 +11,7 @@ float Simon::Calculate_Distance(int a_xPos, int a_yPos, int a_xPos2, int a_yPos2
 Simon::Simon()
 {
 	// Configure the settings of the four coloured circles:
-	m_circle[0].Set(1, 0, 0, 'r', -105, -105);	// red circle
+	m_circle[0].Set(1, 0, 0, 'r', -105, -105);		// red circle
 	m_circle[1].Set(0, 1, 0, 'g', 105, -105);		// green circle
 	m_circle[2].Set(0, 0, 1, 'b', 105, 105);		// blue circle
 	m_circle[3].Set(1, 1, 0, 'y', -105, 105);		// yellow circle
@@ -148,19 +148,17 @@ void Simon::Update(aie::Input * a_input, float a_m_widthH, float a_hightH)
 		m_alarm03--;
 }
 
-void Simon::Draw(aie::Renderer2D * a_renderer, aie::Font * a_font, aie::Texture * a_board_texture, aie::Texture * a_background_texture, float a_m_widthH, float a_m_heightH)
+void Simon::Draw(Hash_Table * m_hastable, aie::Renderer2D * a_renderer, aie::Font * a_font, int a_board_texture, int a_background_texture, float a_m_widthH, float a_m_heightH)
 {
 
 	// Draw the background
-	a_renderer->drawSprite(a_background_texture,a_m_widthH, a_m_heightH,0,0,0,.1);
+	a_renderer->drawSprite(m_hastable->Get(a_background_texture),a_m_widthH, a_m_heightH,0,0,0,.1);
 
 	// Draw the circular base of Simon.
-	a_renderer->drawSprite(a_board_texture,a_m_widthH,a_m_heightH,0,0,0,.1,.5,.5);
+	a_renderer->drawSprite(m_hastable->Get(a_board_texture),a_m_widthH,a_m_heightH,0,0,0,.1,.5,.5);
 
 	// Draw the four circles on Simon.
-	float temp_r = 0.0f;
-	float temp_g = 0.0f;
-	float temp_b = 0.0f;
+	float temp_r = 0.0f, temp_g = 0.0f, temp_b = 0.0f;
 
 	for (int i = 0; i <= 3; ++i)
 	{

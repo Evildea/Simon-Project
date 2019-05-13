@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Renderer2D.h"
 #include "Colour_Pattern.h"
+#include "Hash_Table.h"
 
 // State Machine that represents the various states the game can be in.
 enum Game_State {New_Pattern_State,Flashing_State,User_Input_State,Pause_State,Lose_State,Restart_State};
@@ -56,7 +57,7 @@ public:
 	void Update(aie::Input * a_input, float a_m_widthH, float a_hightH);
 
 	// This is called by Bootstrap and manages the back buffer.
-	void Draw(aie::Renderer2D * a_renderer, aie::Font * a_font, aie::Texture * a_board_texture, aie::Texture * a_background_texture, float a_m_widthH, float a_m_heightH);
+	void Draw(Hash_Table * m_hastable, aie::Renderer2D * a_renderer, aie::Font * a_font, int a_board_texture, int a_background_texture, float a_m_widthH, float a_m_heightH);
 
 	// This returns whether the game is ready to be restarted.
 	bool Restart_Required();

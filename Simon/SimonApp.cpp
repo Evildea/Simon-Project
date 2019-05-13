@@ -3,8 +3,6 @@
 #include "Font.h"
 #include "Input.h"
 
-#include <iostream>
-
 SimonApp::SimonApp() {
 	m_simon = nullptr;
 }
@@ -18,14 +16,18 @@ bool SimonApp::startup() {
 	m_widthH		= (this->getWindowWidth() / 2);
 	m_heightH		= (this->getWindowHeight() / 2);
 
+	// This generates the controller that controls the start screen.
+	m_controller = new Controller;
+
+	// Generate the Hashtable that stores the texture and font IDs.
+	m_hastable = new Hash_Table(3);
+
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
-	m_simon_texture = new aie::Texture("../bin/textures/Simon_BackGround.png");
-	m_background_texture = new aie::Texture("../bin/textures/Background.png");
 
-	// This generates the controller that controls the start screen.
-	m_controller = new Controller;
+	m_simon_texture = m_hastable->Set("simon", new aie::Texture("../bin/textures/Simon_BackGround.png"));
+	m_background_texture = m_hastable->Set("board", new aie::Texture("../bin/textures/Background.png"));
 
 	return true;
 }
@@ -35,8 +37,9 @@ void SimonApp::shutdown() {
 	delete m_controller;
 	delete m_font;
 	delete m_2dRenderer;
-	delete m_simon_texture;
-	delete m_background_texture;
+	delete m_hastable->Get(m_simon_texture);
+	delete m_hastable->Get(m_background_texture);
+	delete m_hastable;
 }
 
 void SimonApp::update(float deltaTime) {
@@ -65,28 +68,36 @@ void SimonApp::update(float deltaTime) {
 
 	// This exits the game.
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
+	{
+		delete m_simon;
 		quit();
+	}
 }
 
 void SimonApp::draw() {
+	// If game over isn't active then draw the contents of the screen.
+	if (!m_gameOver)
+	{
 
-	// This wipes the screen to the background colour.
-	clearScreen();
+		// This wipes the screen to the background colour.
+		clearScreen();
 
-	// This begins to draw the back buffer.
-	m_2dRenderer->begin();
+		// This begins to draw the back buffer.
+		m_2dRenderer->begin();
 
-	// This draws the "Start Screen" and "End Game" modes.
-	m_controller->Draw(m_2dRenderer, m_font, m_widthH, m_heightH);
+		// This draws the "Start Screen" and "End Game" modes.
+		m_controller->Draw(m_2dRenderer, m_font, m_widthH, m_heightH);
 
-	// This draws the object "Simon".
-	if (m_simon != nullptr)
-		m_simon->Draw(m_2dRenderer, m_font, m_simon_texture, m_background_texture, m_widthH, m_heightH);
-	
-	// This outputs the text Press ESC to the screen.
-	m_2dRenderer->setRenderColour(255, 255, 255, 1);
-	m_2dRenderer->drawText(m_font, "Press ESC to quit", 0, 0);
+		// This draws the object "Simon".
+		if (m_simon != nullptr)
+			m_simon->Draw(m_hastable, m_2dRenderer, m_font, m_simon_texture, m_background_texture, m_widthH, m_heightH);
 
-	// This end the back buffer.
-	m_2dRenderer->end();
+		// This outputs the text Press ESC to the screen.
+		m_2dRenderer->setRenderColour(255, 255, 255, 1);
+		m_2dRenderer->drawText(m_font, "Press ESC to quit", 0, 0);
+
+		// This end the back buffer.
+		m_2dRenderer->end();
+
+	}
 }

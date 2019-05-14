@@ -20,14 +20,14 @@ bool SimonApp::startup() {
 	m_controller = new Controller;
 
 	// Generate the Hashtable that stores the texture and font IDs.
-	m_hastable = new Hash_Table;
+	m_hashtable = new Hash_Table;
 
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
-	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
+	m_font = new aie::Font("./bin/font/consolas.ttf", 32);
 
-	m_simon_texture = m_hastable->Set("simon", new aie::Texture("../bin/textures/Simon_BackGround.png"));
-	m_background_texture = m_hastable->Set("board", new aie::Texture("../bin/textures/Background.png"));
+	m_simon_texture = m_hashtable->Set("simon", new aie::Texture("./bin/textures/Simon_BackGround.png"));
+	m_background_texture = m_hashtable->Set("board", new aie::Texture("./bin/textures/Background.png"));
 
 	return true;
 }
@@ -37,9 +37,9 @@ void SimonApp::shutdown() {
 	delete m_controller;
 	delete m_font;
 	delete m_2dRenderer;
-	delete m_hastable->Get("simon");
-	delete m_hastable->Get("board");
-	delete m_hastable;
+	delete m_hashtable->Get("simon");
+	delete m_hashtable->Get("board");
+	delete m_hashtable;
 }
 
 void SimonApp::update(float deltaTime) {
@@ -90,11 +90,7 @@ void SimonApp::draw() {
 
 		// This draws the object "Simon".
 		if (m_simon != nullptr)
-		{
-			m_simon->Draw(m_2dRenderer, m_hastable->Get("simon"), m_widthH, m_heightH);
-			m_simon->Draw(m_2dRenderer, m_hastable->Get("board"), m_widthH, m_heightH);
-			m_simon->Draw(m_2dRenderer, m_font, m_widthH, m_heightH);
-		}
+			m_simon->Draw(m_hashtable,m_2dRenderer, m_font, m_widthH, m_heightH);
 
 		// This outputs the text Press ESC to the screen.
 		m_2dRenderer->setRenderColour(255, 255, 255, 1);

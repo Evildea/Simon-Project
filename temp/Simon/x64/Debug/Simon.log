@@ -1,6 +1,0 @@
-﻿  SimonApp.cpp
-c:\users\s191281\documents\github\project\simon\simonapp.cpp(16): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
-c:\users\s191281\documents\github\project\simon\simonapp.cpp(17): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
-c:\users\s191281\documents\github\project\simon\simonapp.cpp(94): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\s191281\documents\github\project\simon\simonapp.cpp(95): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Simon.vcxproj -> C:\Users\s191281\Documents\GitHub\Project\temp\Simon\x64\Debug\Simon.exe

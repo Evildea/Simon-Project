@@ -11,24 +11,21 @@ float Simon::Calculate_Distance(int a_xPos, int a_yPos, int a_xPos2, int a_yPos2
 Simon::Simon()
 {
 	// Configure the settings of the four coloured circles:
+	m_circle = new Circle[3];
 	m_circle[0].Set(1, 0, 0, 'r', -105, -105);		// red circle
 	m_circle[1].Set(0, 1, 0, 'g', 105, -105);		// green circle
 	m_circle[2].Set(0, 0, 1, 'b', 105, 105);		// blue circle
 	m_circle[3].Set(1, 1, 0, 'y', -105, 105);		// yellow circle
 
 	// Configure the State Machine for the colour selections.
-	m_pattern = new Colour_Pattern;
-	m_game_state = New_Pattern_State;
-	m_current_chain_link = nullptr;
+	m_pattern				= new Colour_Pattern;
+	m_game_state			= New_Pattern_State;
+	m_current_chain_link	= nullptr;
+	m_score					= 0;
+	m_mouse_lock			= false;
 }
 
-Simon::~Simon()
-{
-	delete m_pattern;
-	// PROBLEM CHECK WITH TEACHER. I need to figure out how to delete the circle m_structs.
-}
-
-// This is called by Bootm_strap and manages the game state among other things.
+// This is called by Bootstrap and manages the game state among other things.
 void Simon::Update(aie::Input * a_input, float a_m_widthH, float a_hightH)
 {
 	// Store the mouse coordinates for use later.
@@ -39,7 +36,7 @@ void Simon::Update(aie::Input * a_input, float a_m_widthH, float a_hightH)
 	if (a_input->isMouseButtonUp(aie::INPUT_MOUSE_BUTTON_LEFT))
 		m_mouse_lock = false;
 
-	// If the mouse is hovering over one of the coloured circles highlight it.
+	// If the mouse is hovering over one of the coloured circles then highlight it.
 	for (int i = 0; i <= 3; ++i)
 	{
 		if (Calculate_Distance(mouse_x, mouse_y, a_m_widthH - m_circle[i].x, a_hightH - m_circle[i].y) <= 100)
@@ -49,7 +46,7 @@ void Simon::Update(aie::Input * a_input, float a_m_widthH, float a_hightH)
 	}
 
 	// NEW PATTERN STATE: Generate a new colour patten and add it to the Link List.
-	if (m_game_state==New_Pattern_State)
+	if (m_game_state == New_Pattern_State)
 	{
 		m_score++;
 		switch (rand() % 3)
@@ -85,7 +82,6 @@ void Simon::Update(aie::Input * a_input, float a_m_widthH, float a_hightH)
 			}
 			else
 			{
-				m_mouse_clicks = 0;
 				m_game_state = User_Input_State;
 				m_current_chain_link = m_pattern->Get_Head();
 			}
@@ -97,34 +93,25 @@ void Simon::Update(aie::Input * a_input, float a_m_widthH, float a_hightH)
 	{
 		for (int i = 0; i <= 3; ++i)
 		{
-			if (m_circle[i].mouse_over)
+			if (m_circle[i].mouse_over && a_input->isMouseButtonDown(aie::INPUT_MOUSE_BUTTON_LEFT) && !m_mouse_lock)
 			{
-				if (a_input->isMouseButtonDown(aie::INPUT_MOUSE_BUTTON_LEFT) && m_mouse_lock == false)
+				m_mouse_lock = true;
+				
+				if (m_circle[i].colour == m_current_chain_link->colour)
 				{
-					m_mouse_lock = true;
-					if (m_circle[i].colour == m_current_chain_link->colour)
+					m_current_chain_link = m_current_chain_link->next;
+					if (m_current_chain_link == nullptr)
 					{
-						m_current_chain_link = m_current_chain_link->next;
-						if (m_current_chain_link == nullptr)
-						{
-							m_game_state = Pause_State;
-							m_alarm02 = 100;
-							m_current_chain_link = m_pattern->Get_Head();
-						}
-						else
-							m_mouse_clicks++;
+						m_game_state = Pause_State;
+						m_alarm02 = 100;
+						m_current_chain_link = m_pattern->Get_Head();
 					}
-					else
-						m_mouse_clicks++;
 				}
+				else
+					m_game_state = Lose_State;
 			}
 		}
 
-		// If the mouse clicks is equal to the size of the m_pattern and they still haven't reached the end of the Link List then cause the game to fail.
-		if(m_mouse_clicks==m_pattern->Get_Size())
-		{
-			m_game_state = Lose_State;
-		}
 	}
 
 	// PAUSE STATE: Create a short pause between the players correct input and the initiation of a new m_pattern sequence.
@@ -148,16 +135,15 @@ void Simon::Update(aie::Input * a_input, float a_m_widthH, float a_hightH)
 		m_alarm03--;
 }
 
-void Simon::Draw(aie::Renderer2D * a_renderer, aie::Texture * a_texture, int a_widthH, int a_heightH)
+void Simon::Draw(Hash_Table * a_hashtable, aie::Renderer2D * a_renderer, aie::Font * a_font, int a_widthH, int a_heightH)
 {
-	a_renderer->drawSprite(a_texture, a_widthH, a_heightH, 0, 0, 0, .1,.5,.5);
-}
 
-void Simon::Draw(aie::Renderer2D * a_renderer, aie::Font * a_font, float a_widthH, float a_heightH)
-{
+	// Draw the background textures based on the hashtable.
+	a_renderer->drawSprite(a_hashtable->Get("simon"), a_widthH, a_heightH, 0, 0, 0, .1, .5, .5);
+	a_renderer->drawSprite(a_hashtable->Get("board"), a_widthH, a_heightH, 0, 0, 0, .1, .5, .5);
+
 	// Draw the four circles on Simon.
 	float temp_r = 0.0f, temp_g = 0.0f, temp_b = 0.0f;
-
 	for (int i = 0; i <= 3; ++i)
 	{
 		// Draw the black shadow behind the circle.
@@ -167,7 +153,7 @@ void Simon::Draw(aie::Renderer2D * a_renderer, aie::Font * a_font, float a_width
 		if (m_alarm01 > 20)
 		{
 			if (m_current_chain_link->colour == m_circle[i].colour)
-				a_renderer->drawCircle(a_widthH - m_circle[i].x, a_heightH - m_circle[i].y, 110, 0);
+				a_renderer->drawCircle(a_widthH - m_circle[i].x, a_heightH - m_circle[i].y, 115, 0);
 			else
 				a_renderer->drawCircle(a_widthH - m_circle[i].x, a_heightH - m_circle[i].y, 105, 0);
 		}
@@ -242,4 +228,9 @@ void Simon::Add_Colour(char a_colour)
 	m_pattern->Push_New_Colour(a_colour);
 	m_game_state = Flashing_State;
 	m_alarm01 = 100;
+}
+
+Simon::~Simon()
+{
+	delete m_pattern;
 }

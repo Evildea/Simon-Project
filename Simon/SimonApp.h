@@ -26,7 +26,7 @@ protected:
 	int					m_background_texture;	// This is the texture used by the background.
 	Controller*			m_controller;			// This is the controller for the Start game screen.
 	Simon*				m_simon;				// This is the object that represents the Simon game.
-	Hash_Table*			m_hastable;				// This represents the texture hashtable.	
+	Hash_Table*			m_hashtable;				// This represents the texture hashtable.	
 	float				m_widthH;				// This represents the width of the screen divided in two.
 	float				m_heightH;				// This represents the height of the screen divided in two.
 

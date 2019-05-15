@@ -166,6 +166,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Colour_Pattern.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Hash_Table.cpp" />
@@ -174,9 +175,11 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Circle.h" />
     <ClInclude Include="Colour_Pattern.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Hash_Table.h" />
+    <ClInclude Include="MemTest.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="SimonApp.h" />
   </ItemGroup>

@@ -12,22 +12,24 @@ SimonApp::~SimonApp() {
 
 bool SimonApp::startup() {
 	
-	m_2dRenderer	= new aie::Renderer2D();
+	m_2dRenderer	= DBG_NEW aie::Renderer2D();
 	m_widthH		= (this->getWindowWidth() / 2);
 	m_heightH		= (this->getWindowHeight() / 2);
 
 	// This generates the controller that controls the start screen.
-	m_controller = new Controller;
+	m_controller = DBG_NEW Controller;
 
 	// Generate the Hashtable that stores the texture and font IDs.
-	m_hashtable = new Hash_Table;
+	m_hashtable = DBG_NEW Hash_Table;
 
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
-	m_font = new aie::Font("./bin/font/consolas.ttf", 32);
+	m_font = DBG_NEW aie::Font("./bin/font/consolas.ttf", 32);
 
-	m_simon_texture = m_hashtable->Set("simon", new aie::Texture("./bin/textures/Simon_BackGround.png"));
-	m_background_texture = m_hashtable->Set("board", new aie::Texture("./bin/textures/Background.png"));
+	//m_simon_texture = 
+		m_hashtable->Set("simon", DBG_NEW aie::Texture("./bin/textures/Simon_BackGround.png"));
+	//m_background_texture = 
+		m_hashtable->Set("board", DBG_NEW aie::Texture("./bin/textures/Background.png"));
 
 	return true;
 }
@@ -40,19 +42,20 @@ void SimonApp::shutdown() {
 	delete m_hashtable->Get("simon");
 	delete m_hashtable->Get("board");
 	delete m_hashtable;
+	delete m_simon;
 }
 
 void SimonApp::update(float deltaTime) {
 
 	// This represents the keyboard and mouse input.
-	aie::Input* input = aie::Input::getInstance();
+	input = aie::Input::getInstance();
 
 	// This updates the "start screen" and "end game" options.
 	m_controller->Update(input, this);
 
 	// This generates "Simon" if we have entered "Start Game" mode and "Simon" hasn't been generated already.
 	if (m_controller->Get_Current_Screen() == Start_Game && m_simon == nullptr)
-		m_simon = new Simon;
+		m_simon = DBG_NEW Simon;
 
 	// This performs updates for "Simon" and also checks whether "Simon" needs to restart.
 	if (m_simon != nullptr)
@@ -70,6 +73,7 @@ void SimonApp::update(float deltaTime) {
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 	{
 		delete m_simon;
+		m_simon = nullptr;
 		quit();
 	}
 }

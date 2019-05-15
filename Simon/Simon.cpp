@@ -1,4 +1,5 @@
 #include "Simon.h"
+#include "MemTest.h"
 
 // Calculates the distance between two points. Used for mouse collision checking with the coloured circles.
 float Simon::Calculate_Distance(int a_xPos, int a_yPos, int a_xPos2, int a_yPos2)
@@ -11,14 +12,17 @@ float Simon::Calculate_Distance(int a_xPos, int a_yPos, int a_xPos2, int a_yPos2
 Simon::Simon()
 {
 	// Configure the settings of the four coloured circles:
-	m_circle = new Circle[3];
-	m_circle[0].Set(1, 0, 0, 'r', -105, -105);		// red circle
-	m_circle[1].Set(0, 1, 0, 'g', 105, -105);		// green circle
-	m_circle[2].Set(0, 0, 1, 'b', 105, 105);		// blue circle
-	m_circle[3].Set(1, 1, 0, 'y', -105, 105);		// yellow circle
+	for (int i = 0; i <= 3; i++)
+		m_circle.push_back(DBG_NEW Circle);
+
+
+	m_circle[0]->Set(1, 0, 0, 'r', -105, -105);		// red circle
+	m_circle[1]->Set(0, 1, 0, 'g', 105, -105);		// green circle
+	m_circle[2]->Set(0, 0, 1, 'b', 105, 105);		// blue circle
+	m_circle[3]->Set(1, 1, 0, 'y', -105, 105);		// yellow circle
 
 	// Configure the State Machine for the colour selections.
-	m_pattern				= new Colour_Pattern;
+	m_pattern				= DBG_NEW Colour_Pattern;
 	m_game_state			= New_Pattern_State;
 	m_current_chain_link	= nullptr;
 	m_score					= 0;
@@ -39,10 +43,10 @@ void Simon::Update(aie::Input * a_input, float a_m_widthH, float a_hightH)
 	// If the mouse is hovering over one of the coloured circles then highlight it.
 	for (int i = 0; i <= 3; ++i)
 	{
-		if (Calculate_Distance(mouse_x, mouse_y, a_m_widthH - m_circle[i].x, a_hightH - m_circle[i].y) <= 100)
-			m_circle[i].mouse_over = true;
+		if (Calculate_Distance(mouse_x, mouse_y, a_m_widthH - m_circle[i]->x, a_hightH - m_circle[i]->y) <= 100)
+			m_circle[i]->mouse_over = true;
 		else
-			m_circle[i].mouse_over = false;
+			m_circle[i]->mouse_over = false;
 	}
 
 	// NEW PATTERN STATE: Generate a new colour patten and add it to the Link List.
@@ -93,11 +97,11 @@ void Simon::Update(aie::Input * a_input, float a_m_widthH, float a_hightH)
 	{
 		for (int i = 0; i <= 3; ++i)
 		{
-			if (m_circle[i].mouse_over && a_input->isMouseButtonDown(aie::INPUT_MOUSE_BUTTON_LEFT) && !m_mouse_lock)
+			if (m_circle[i]->mouse_over && a_input->isMouseButtonDown(aie::INPUT_MOUSE_BUTTON_LEFT) && !m_mouse_lock)
 			{
 				m_mouse_lock = true;
 				
-				if (m_circle[i].colour == m_current_chain_link->colour)
+				if (m_circle[i]->colour == m_current_chain_link->colour)
 				{
 					m_current_chain_link = m_current_chain_link->next;
 					if (m_current_chain_link == nullptr)
@@ -139,7 +143,7 @@ void Simon::Draw(Hash_Table * a_hashtable, aie::Renderer2D * a_renderer, aie::Fo
 {
 
 	// Draw the background textures based on the hashtable.
-	a_renderer->drawSprite(a_hashtable->Get("simon"), a_widthH, a_heightH, 0, 0, 0, .1, .5, .5);
+	a_renderer->drawSprite(a_hashtable->Get("simon"), a_widthH, a_heightH, 0, 0, 0, .15, .5, .5);
 	a_renderer->drawSprite(a_hashtable->Get("board"), a_widthH, a_heightH, 0, 0, 0, .1, .5, .5);
 
 	// Draw the four circles on Simon.
@@ -152,32 +156,32 @@ void Simon::Draw(Hash_Table * a_hashtable, aie::Renderer2D * a_renderer, aie::Fo
 		// Draw the black border around the coloured circle. If the circle is currently flashing then make its border thicker.
 		if (m_alarm01 > 20)
 		{
-			if (m_current_chain_link->colour == m_circle[i].colour)
-				a_renderer->drawCircle(a_widthH - m_circle[i].x, a_heightH - m_circle[i].y, 115, 0);
+			if (m_current_chain_link->colour == m_circle[i]->colour)
+				a_renderer->drawCircle(a_widthH - m_circle[i]->x, a_heightH - m_circle[i]->y, 115, 0);
 			else
-				a_renderer->drawCircle(a_widthH - m_circle[i].x, a_heightH - m_circle[i].y, 105, 0);
+				a_renderer->drawCircle(a_widthH - m_circle[i]->x, a_heightH - m_circle[i]->y, 105, 0);
 		}
 		else
-			a_renderer->drawCircle(a_widthH - m_circle[i].x, a_heightH - m_circle[i].y, 105, 0);
+			a_renderer->drawCircle(a_widthH - m_circle[i]->x, a_heightH - m_circle[i]->y, 105, 0);
 
 		// Draw the coloured circle. If the mouse is over the circle or the circle is currently flashing then brighten it's contents.
-		if (m_circle[i].mouse_over == false)
+		if (m_circle[i]->mouse_over == false)
 		{
 			if (m_alarm01 > 20)
 			{
-				if (m_current_chain_link->colour == m_circle[i].colour)
-					a_renderer->setRenderColour(m_circle[i].r, m_circle[i].g, m_circle[i].b, 1);
+				if (m_current_chain_link->colour == m_circle[i]->colour)
+					a_renderer->setRenderColour(m_circle[i]->r, m_circle[i]->g, m_circle[i]->b, 1);
 				else
-					a_renderer->setRenderColour(m_circle[i].r - .6, m_circle[i].g - .6, m_circle[i].b - .6, 1);
+					a_renderer->setRenderColour(m_circle[i]->r - .6, m_circle[i]->g - .6, m_circle[i]->b - .6, 1);
 			}
 			else
-				a_renderer->setRenderColour(m_circle[i].r - .6, m_circle[i].g - .6, m_circle[i].b - .6, 1);
+				a_renderer->setRenderColour(m_circle[i]->r - .6, m_circle[i]->g - .6, m_circle[i]->b - .6, 1);
 		}
 		else
 		{
-			a_renderer->setRenderColour(m_circle[i].r, m_circle[i].g, m_circle[i].b, 1);
+			a_renderer->setRenderColour(m_circle[i]->r, m_circle[i]->g, m_circle[i]->b, 1);
 		}
-		a_renderer->drawCircle(a_widthH-m_circle[i].x, a_heightH-m_circle[i].y, 100, 0);
+		a_renderer->drawCircle(a_widthH-m_circle[i]->x, a_heightH-m_circle[i]->y, 100, 0);
 	}
 
 	// Draw a "red circle" above the texture green dot.
@@ -233,4 +237,6 @@ void Simon::Add_Colour(char a_colour)
 Simon::~Simon()
 {
 	delete m_pattern;
+	for (int i = 0; i <= 3; i++)
+		delete m_circle[i];
 }

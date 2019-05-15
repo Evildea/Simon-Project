@@ -1,4 +1,5 @@
 #include "Colour_Pattern.h"
+#include "MemTest.h"
 
 Colour_Pattern::Colour_Pattern()
 {
@@ -54,7 +55,7 @@ void Colour_Pattern::Push_New_Colour(char a_colour)
 			m_current = m_next_current;
 			m_next_current = m_current->next;
 		}
-		m_current->next = new Link;
+		m_current->next = DBG_NEW Link;
 		m_current->next->colour = a_colour;
 	}
 	m_size++;

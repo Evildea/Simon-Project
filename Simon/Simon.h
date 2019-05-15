@@ -4,28 +4,11 @@
 #include "Renderer2D.h"
 #include "Colour_Pattern.h"
 #include "Hash_Table.h"
+#include "Circle.h"
+#include <vector>
 
 // State Machine that represents the various states the game can be in.
 enum Game_State {New_Pattern_State,Flashing_State,User_Input_State,Pause_State,Lose_State,Restart_State};
-
-// Structs that represent each coloured circle that is drawn to the screen.
-struct Circle
-{
-	float r, g, b;
-	int x, y;
-	char colour;
-	bool mouse_over = false;
-	bool selected = false;
-	void Set(float a_red, float a_green, float a_blue, char a_colour, int a_xPos, int a_yPos)
-	{
-		r = a_red;
-		g = a_green;
-		b = a_blue;
-		colour = a_colour;
-		x = a_xPos;
-		y = a_yPos;
-	}
-};
 
 class Simon
 {
@@ -34,7 +17,7 @@ private:
 	Game_State		m_game_state;			// This represents the current game state.
 	Colour_Pattern	*m_pattern;				// This represents the colour pattern. It's holds a Link List.
 	Link			*m_current_chain_link;	// This represents the current link in the Link List. It's used by the "Flashing" and "User Input" game states.
-	Circle			*m_circle;				// This represents the four coloured circles.
+	vector<Circle*> m_circle;				// This represents the four coloured circles.
 	short int		m_alarm01;				// This represents the timer used by the "Flashing" state to create a delay between the colours.
 	short int		m_alarm02;				// This represents the timer used by the "Pause" state to create a delay between the user winning and the next pattern sequence.
 	short int		m_alarm03;				// This represents the timer used by the "Lose" state to create a delay before restarting the game.
